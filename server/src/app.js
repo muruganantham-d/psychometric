@@ -21,27 +21,6 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN || "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-// OR, if you want to be strict:
-app.use(cors({ origin: '*' }));
-
-app.use(express.json());
-app.use(morgan("dev"));
-
-app.get("/api/health", (req, res) => {
-  return sendSuccess(res, { status: "ok" });
-});
-
-app.use("/api/questions", questionRoutes);
-app.use("/api/sessions", sessionRoutes);
-
-if (isProduction) {
-  if (!hasClientBuild) {
-    console.warn(`Client build not found at ${clientIndexPath}; falling back to API root health response.`);
-  } else {
-    app.use(express.static(clientDistPath));
-  }
-}
-
 function serveClientIndex(req, res, next) {
   return res.sendFile(clientIndexPath, (error) => {
     if (!error) {
@@ -57,18 +36,37 @@ function serveClientIndex(req, res, next) {
   });
 }
 
+app.get("/api/health", (req, res) => {
+  return sendSuccess(res, { status: "ok" });
+});
+
 if (isProduction && hasClientBuild) {
   app.get("/", (req, res, next) => {
-    return serveClientIndex(req, res, next);
-  });
-
-  app.get(/^\/(?!api(?:\/|$)).*/, (req, res, next) => {
     return serveClientIndex(req, res, next);
   });
 } else {
   app.get("/", (req, res) => {
     return sendSuccess(res, { status: "ok" });
   });
+}
+
+// OR, if you want to be strict:
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+app.use(morgan("dev"));
+
+app.use("/api/questions", questionRoutes);
+app.use("/api/sessions", sessionRoutes);
+
+if (isProduction) {
+  if (!hasClientBuild) {
+    console.warn(`Client build not found at ${clientIndexPath}; falling back to API root health response.`);
+  } else {
+    app.use(express.static(clientDistPath));
+    app.get(/^\/(?!api(?:\/|$)).*/, (req, res, next) => {
+      return serveClientIndex(req, res, next);
+    });
+  }
 }
 
 app.use(notFound);

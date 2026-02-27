@@ -28,7 +28,7 @@ function Button({
     <button
       type={type}
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-4 disabled:cursor-not-allowed",
+        "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl font-semibold leading-none transition duration-200 focus-visible:outline-none focus-visible:ring-4 disabled:cursor-not-allowed",
         variantClasses[variant],
         sizeClasses[size],
         className
@@ -39,7 +39,7 @@ function Button({
       {loading ? (
         <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent" />
       ) : null}
-      <span>{children}</span>
+      <span className="inline-flex items-center justify-center gap-2 leading-none">{children}</span>
     </button>
   );
 }

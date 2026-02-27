@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, Brain, Compass, HeartHandshake, Medal } from "lucide-react";
 import { createSession } from "../api/assessmentApi";
 import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
-import Container from "../components/ui/Container";
 import ErrorBanner from "../components/ErrorBanner";
 import { getApiErrorMessage } from "../utils/errors";
 import { SESSION_STORAGE_KEY } from "../utils/constants";
@@ -58,53 +56,50 @@ function HomePage() {
   }
 
   return (
-    <div>
-      <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden bg-slate-50">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 -right-40 z-0 h-[520px] w-[520px] rounded-full bg-purple-400/20 blur-3xl"
-        />
-        <Container className="relative z-10 text-center">
-          <div className="mx-auto max-w-4xl">
+    <main className="min-h-screen overflow-x-hidden bg-slate-50">
+      <section className="relative overflow-hidden">
+        <div className="pointer-events-none absolute -top-32 -right-40 h-[520px] w-[520px] rounded-full bg-purple-400/20 blur-3xl" />
+
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 mx-auto max-w-4xl pt-16 pb-12 text-center sm:pt-20 sm:pb-14 lg:pt-24 lg:pb-16">
             <div className="mb-6 flex justify-center">
-              <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-100/80 px-4 py-2 text-xs font-medium text-slate-700">
-                <span className="mr-2 h-2 w-2 rounded-full bg-purple-500" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-100/80 px-4 py-2 text-xs font-medium text-slate-700">
+                <span className="h-2 w-2 rounded-full bg-purple-500" />
                 Science-backed Career Guidance
               </span>
             </div>
 
-            <h1 className="text-6xl font-extrabold leading-[1.05] tracking-tight text-slate-900 md:text-7xl">
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl md:text-6xl lg:text-7xl lg:leading-[1.05]">
               Discover a career designed for{" "}
               <span className="bg-gradient-to-r from-purple-600 to-sky-500 bg-clip-text text-transparent">
                 who you are
               </span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-500 md:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-slate-500 sm:text-base md:text-lg">
               Stop guessing. Our comprehensive multi-dimensional assessment uncovers your unique psychological profile
-              to match you with careers where you'll thrive.
+              to match you with careers where you&apos;ll thrive.
             </p>
 
-            <div className="mt-10 flex justify-center">
-              <div className="inline-flex flex-wrap items-center justify-center gap-6">
+            <div className="mx-auto mt-8 flex flex-col items-stretch gap-3 sm:mt-10 sm:inline-flex sm:flex-row sm:items-center sm:justify-center sm:gap-5">
                 <Button
-                  className="h-14 rounded-full bg-[#6C63FF] px-10 text-sm font-medium text-white shadow-[0_18px_40px_-18px_rgba(108,99,255,0.75)] transition-transform duration-200 hover:-translate-y-[-1px] hover:bg-brand-600"
+                  className="h-12 w-full rounded-full bg-[#5B54F6] px-6 text-sm font-medium text-white shadow-[0_22px_50px_-22px_rgba(91,84,246,0.9)] transition-transform duration-200 hover:-translate-y-[-1px] hover:bg-[#4C46E5] sm:h-14 sm:w-auto sm:px-10"
                   loading={isStarting}
                   onClick={handleBeginAssessment}
                 >
-                  <span className="inline-flex items-center leading-none">
-                    <span>Start Free Assessment</span>
-                    <ArrowRight size={16} strokeWidth={2} className="ml-2 shrink-0" />
+                  <span className="inline-flex items-center gap-2 leading-none">
+                    Start Free Assessment
+                    <ArrowRight className="h-4 w-4 shrink-0" />
                   </span>
                 </Button>
+
                 <Button
                   variant="outline"
-                  className="h-14 rounded-full border border-slate-200 bg-white px-10 text-sm font-medium text-slate-900 hover:bg-slate-50"
+                  className="h-12 w-full rounded-full border border-slate-200 bg-white px-6 text-sm font-medium text-slate-900 hover:bg-slate-50 sm:h-14 sm:w-auto sm:px-10"
                   onClick={() => document.getElementById("pillars")?.scrollIntoView({ behavior: "smooth" })}
                 >
-                  <span>Learn How It Works</span>
+                  Learn How It Works
                 </Button>
-              </div>
             </div>
 
             {existingSessionId ? (
@@ -118,59 +113,69 @@ function HomePage() {
                 </button>
               </div>
             ) : null}
-          </div>
 
-          {error ? (
-            <div className="mx-auto mt-8 max-w-3xl">
-              <ErrorBanner message={error} />
-            </div>
-          ) : null}
-        </Container>
+            {error ? (
+              <div className="mx-auto mt-6 max-w-3xl">
+                <ErrorBanner message={error} />
+              </div>
+            ) : null}
+          </div>
+        </div>
       </section>
 
-      <section id="pillars" className="border-t border-line py-16">
-        <Container>
+      <section id="pillars" className="py-14 sm:py-16 lg:py-20">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-xl text-center">
-            <h2 className="text-3xl font-bold text-ink">The Four Pillars of Fit</h2>
-            <p className="mt-3 text-sm text-slate-500">
+            <h2 className="text-3xl font-bold text-slate-900">The Four Pillars of Fit</h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-slate-500">
               Most tests only look at one dimension. We combine four distinct psychological models for holistic career
               matching.
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
-              <Card key={pillar.title} className="flex h-full min-h-[160px] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xs font-semibold ${pillar.iconClass}`}>
+              <article
+                key={pillar.title}
+                className="flex h-full min-h-[160px] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+              >
+                <span
+                  className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${pillar.iconClass}`}
+                >
                   <pillar.icon size={18} strokeWidth={2} />
                 </span>
-                <div className="mt-5 flex flex-1 flex-col gap-3">
-                  <h3 className="text-xl font-semibold text-ink">{pillar.title}</h3>
-                  <p className="text-sm leading-relaxed text-slate-500">{pillar.description}</p>
+
+                <div className="mt-4 flex flex-1 flex-col">
+                  <h3 className="text-xl font-semibold text-slate-900">{pillar.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-500">{pillar.description}</p>
                 </div>
-              </Card>
+              </article>
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="py-16">
-        <Container>
-          <div className="dark-banner-pattern flex min-h-[220px] items-center justify-center overflow-hidden rounded-3xl px-6 py-12 text-center text-white shadow-card md:min-h-[260px] sm:px-10">
-            <div>
-            <h3 className="text-4xl font-bold">Ready to find your path?</h3>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-slate-200">
-              It takes less than 15 minutes to gain insights that could change your entire career trajectory. No account
-              required to start.
-            </p>
-            <Button variant="light" className="mt-8 h-12 rounded-full px-10 text-sm font-medium" onClick={handleBeginAssessment}>
-              <span className="leading-none">Begin Assessment</span>
-            </Button>
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="dark-banner-pattern flex min-h-[200px] items-center justify-center rounded-3xl px-6 py-12 text-center text-white shadow-card sm:min-h-[220px] sm:px-10 lg:min-h-[260px]">
+            <div className="mx-auto max-w-3xl">
+              <h3 className="text-4xl font-bold">Ready to find your path?</h3>
+              <p className="mx-auto mt-4 max-w-2xl text-base text-slate-200">
+                It takes less than 15 minutes to gain insights that could change your entire career trajectory. No
+                account required to start.
+              </p>
+              <Button
+                variant="light"
+                className="mt-8 h-12 w-full max-w-xs rounded-full px-6 text-sm font-medium sm:h-14 sm:w-auto sm:px-10"
+                onClick={handleBeginAssessment}
+              >
+                Begin Assessment
+              </Button>
             </div>
           </div>
-        </Container>
+        </div>
       </section>
-    </div>
+    </main>
   );
 }
 

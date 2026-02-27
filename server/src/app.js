@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const fs = require("fs");
 const path = require("path");
 
 const questionRoutes = require("./routes/questionRoutes");
@@ -13,6 +14,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === "production";
 const clientDistPath = path.resolve(__dirname, "../../client/dist");
 const clientIndexPath = path.join(clientDistPath, "index.html");
+const hasClientBuild = fs.existsSync(clientIndexPath);
 
 const allowedOrigins = (process.env.CLIENT_ORIGIN || "")
   .split(",")
@@ -33,14 +35,35 @@ app.use("/api/questions", questionRoutes);
 app.use("/api/sessions", sessionRoutes);
 
 if (isProduction) {
-  app.use(express.static(clientDistPath));
+  if (!hasClientBuild) {
+    console.warn(`Client build not found at ${clientIndexPath}; falling back to API root health response.`);
+  } else {
+    app.use(express.static(clientDistPath));
+  }
+}
 
-  app.get("/", (req, res) => {
-    return res.sendFile(clientIndexPath);
+function serveClientIndex(req, res, next) {
+  return res.sendFile(clientIndexPath, (error) => {
+    if (!error) {
+      return undefined;
+    }
+
+    if (res.headersSent) {
+      return next(error);
+    }
+
+    console.error("Failed to serve client index, returning health response for root route.", error);
+    return sendSuccess(res, { status: "ok" });
+  });
+}
+
+if (isProduction && hasClientBuild) {
+  app.get("/", (req, res, next) => {
+    return serveClientIndex(req, res, next);
   });
 
-  app.get(/^\/(?!api(?:\/|$)).*/, (req, res) => {
-    return res.sendFile(clientIndexPath);
+  app.get(/^\/(?!api(?:\/|$)).*/, (req, res, next) => {
+    return serveClientIndex(req, res, next);
   });
 } else {
   app.get("/", (req, res) => {

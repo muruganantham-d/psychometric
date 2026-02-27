@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #0f172a;
+  background-color: #f6f7fb;
+  background-image: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  padding-top: 0;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f2f4fa 25%, #e9edf6 37%, #f2f4fa 63%);
+  background-size: 400% 100%;
+}
+
+.dark-banner-pattern {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0),
+    linear-gradient(160deg, #0d1635 0%, #16234b 100%);
+  background-size: 22px 22px, auto;
+}

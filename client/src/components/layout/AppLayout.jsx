@@ -13,12 +13,14 @@ import Button from "../ui/Button";
 
 function BrandMark() {
   return (
-    <div className="flex items-center gap-2">
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100">
-        <Compass size={16} strokeWidth={2} className="text-brand-600" />
-      </span>
-      <span className="text-xl font-bold text-ink">PathFinder</span>
-    </div>
+<div className="flex items-center gap-2">
+  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#4f46e5]/15">
+    <Compass size={16} strokeWidth={2} className="text-[#4f46e5]" />
+  </span>
+  <span className="text-xl font-bold bg-gradient-to-r from-[#4f46e5] to-[#0dccf2] bg-clip-text text-transparent">
+    PathFinder
+  </span>
+</div>
   );
 }
 

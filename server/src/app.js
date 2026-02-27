@@ -15,11 +15,9 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN || "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-app.use(
-  cors({
-    origin: allowedOrigins.length > 0 ? allowedOrigins : true,
-  })
-);
+// OR, if you want to be strict:
+app.use(cors({ origin: '*' }));
+
 app.use(express.json());
 app.use(morgan("dev"));
 

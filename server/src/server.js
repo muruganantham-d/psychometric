@@ -1,11 +1,11 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+require("dotenv").config();
+
 const app = require("./app");
 const { connectDB } = require("./config/db");
 
 const HOST = "0.0.0.0";
 const PORT = Number(process.env.PORT) || 5000;
+const MONGO_RETRY_DELAY_MS = 5000;
 
 async function connectToDatabase() {
   if (!process.env.MONGODB_URI) {
@@ -18,21 +18,25 @@ async function connectToDatabase() {
   try {
     await connectDB();
   } catch (error) {
-    console.error("MongoDB connection failed. Retrying in 5 seconds.", error);
+    console.error(
+      `MongoDB connection failed. Retrying in ${MONGO_RETRY_DELAY_MS / 1000} seconds.`,
+      error
+    );
+
     setTimeout(() => {
       void connectToDatabase();
-    }, 5000);
+    }, MONGO_RETRY_DELAY_MS);
   }
 }
 
-console.log(`Using PORT=${PORT}`);
+console.log("BOOT PORT", PORT);
 
 const server = app.listen(PORT, HOST, () => {
-  console.log(`Server listening on ${HOST}:${PORT}`);
+  console.log(`API listening on port ${PORT}`);
   void connectToDatabase();
 });
 
 server.on("error", (error) => {
-  console.error("Failed to start server", error);
+  console.error(`Server failed to bind on ${HOST}:${PORT}`, error);
   process.exit(1);
 });

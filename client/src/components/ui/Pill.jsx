@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
 const variantClasses = {
-  neutral: "border border-slate-200/70 bg-slate-100 text-slate-600",
-  accent: "border border-indigo-200 bg-indigo-50 text-indigo-700",
+  neutral: "border border-slate-200/70 bg-slate-100/80 text-slate-700",
+  accent: "border border-brand-200 bg-brand-50 text-brand-700",
 };
 
 function Pill({ children, className, variant = "neutral" }) {

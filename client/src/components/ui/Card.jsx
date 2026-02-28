@@ -1,7 +1,16 @@
 import clsx from "clsx";
 
 function Card({ children, className }) {
-  return <div className={clsx("rounded-2xl border border-slate-200/70 bg-white shadow-sm", className)}>{children}</div>;
+  return (
+    <div
+      className={clsx(
+        "rounded-[28px] border border-white/70 bg-white/90 shadow-card backdrop-blur-sm",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default Card;

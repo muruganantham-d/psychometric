@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,19 +6,36 @@
 
 :root {
   color-scheme: light;
+  --background: #f6f4ee;
+  --background-deep: #efe9dc;
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-strong: #ffffff;
+  --foreground: #0f1f1b;
+  --muted: #5d6e68;
+  --line: rgba(15, 31, 27, 0.1);
+  --ring: rgba(30, 184, 131, 0.25);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(30, 184, 131, 0.14), transparent 34%),
+    radial-gradient(circle at left 20%, rgba(179, 138, 74, 0.12), transparent 28%),
+    linear-gradient(180deg, var(--background-deep) 0%, var(--background) 24%, #f8f7f2 100%);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Inter", system-ui, sans-serif;
-  color: #0f172a;
-  background-color: #f6f7fb;
-  background-image: none;
+  overflow-x: hidden;
+  font-family: "Manrope", system-ui, sans-serif;
+  color: var(--foreground);
+  background: transparent;
 }
 
 #root {
@@ -37,13 +54,46 @@ body {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #f2f4fa 25%, #e9edf6 37%, #f2f4fa 63%);
+  background: linear-gradient(90deg, rgba(219, 226, 221, 0.55) 25%, rgba(244, 247, 245, 0.95) 37%, rgba(219, 226, 221, 0.55) 63%);
   background-size: 400% 100%;
 }
 
 .dark-banner-pattern {
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0),
-    linear-gradient(160deg, #0d1635 0%, #16234b 100%);
-  background-size: 22px 22px, auto;
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0),
+    linear-gradient(145deg, #102621 0%, #17362e 62%, #1f4a3f 100%);
+  background-size: 20px 20px, auto;
+}
+
+::selection {
+  color: #072018;
+  background: rgba(30, 184, 131, 0.24);
+}
+
+a,
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Grotesk", "Manrope", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.18;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 90%);
 }

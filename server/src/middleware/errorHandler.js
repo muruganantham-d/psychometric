@@ -3,6 +3,10 @@ const { sendFailure } = require("../utils/response");
 const { HttpError } = require("../utils/httpError");
 
 function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+
   if (err instanceof ZodError) {
     const fieldErrors = err.issues.reduce((acc, issue) => {
       const path = issue.path.join(".") || "body";
@@ -21,8 +25,21 @@ function errorHandler(err, req, res, next) {
     return sendFailure(res, "Invalid identifier format.", 400);
   }
 
-  console.error(err);
-  return sendFailure(res, "Unexpected server error.", 500);
+  const statusCode =
+    err.status ||
+    err.statusCode ||
+    (res.statusCode >= 400 ? res.statusCode : 500);
+
+  if (statusCode >= 500) {
+    console.error(err);
+  }
+
+  return sendFailure(
+    res,
+    err.message || "Unexpected server error.",
+    statusCode,
+    err.errors
+  );
 }
 
 module.exports = {

@@ -1,7 +1,11 @@
-const { HttpError } = require("../utils/httpError");
+const { sendFailure } = require("../utils/response");
 
-function notFound(req, res, next) {
-  next(new HttpError(404, `Route not found: ${req.method} ${req.originalUrl}`));
+function notFound(req, res) {
+  return sendFailure(
+    res,
+    `Route not found: ${req.method} ${req.originalUrl}`,
+    404
+  );
 }
 
 module.exports = {
